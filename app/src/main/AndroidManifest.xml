@@ -9,9 +9,11 @@
         android:icon="@drawable/red_lion"
         android:label="@string/app_name"
         android:roundIcon="@drawable/red_lion"
+        android:targetSdkVersion="34"
         android:supportsRtl="true"
+        android:exported="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
