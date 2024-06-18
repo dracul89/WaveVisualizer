@@ -11,9 +11,8 @@
         android:roundIcon="@drawable/red_lion"
         android:targetSdkVersion="34"
         android:supportsRtl="true"
-        android:exported="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
