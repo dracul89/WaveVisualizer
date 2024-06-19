@@ -9,6 +9,9 @@ android {
         compileSdk 34
         versionCode 1
         versionName "1.0"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
