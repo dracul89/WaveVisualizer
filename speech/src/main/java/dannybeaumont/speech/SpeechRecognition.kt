@@ -1,9 +1,6 @@
-package dannybeaumont.speech;
+package dannybeaumont.speech
 
 /**
- * Created by debea on 9/3/2017.
+ * Created by Danny Beaumont on 9/3/2017.
  */
-
-public class SpeechRecognition {
-
-}
+class SpeechRecognition

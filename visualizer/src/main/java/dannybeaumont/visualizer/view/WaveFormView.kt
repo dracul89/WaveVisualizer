@@ -1,136 +1,148 @@
-package dannybeaumont.visualizer.view;
+package dannybeaumont.visualizer.view
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.util.AttributeSet;
-import android.view.View;
+import android.annotation.TargetApi
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.os.Build
+import android.util.AttributeSet
+import android.view.View
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.sin
 
-public class WaveFormView extends View {
+class WaveFormView : View {
+    private var phase = 0f
+    private var amplitude = 0f
+    private var frequency = 0f
+    private var idleAmplitude = 0f
+    private var numberOfWaves = 0f
+    private var phaseShift = 0f
+    private var density = 0f
+    private var primaryWaveLineWidth = 0f
+    private var secondaryWaveLineWidth = 0f
+    private var mPaintColor: Paint? = null
+    private var mSecondaryPaint: Paint? = null
+    private var mThirdPaint: Paint? = null
 
-    private static final float DEFAULT_FREQUENCY = 1.5f;
-    private static final float DEFAULT_AMPLITUDE = 1.0f;
-    private static final float DEFAULT_IDLE_AMPLITUDE = 0.01f;
-    private static final float DEFAULT_NUMBER_OF_WAVES = 20.0f;
-    private static final float DEFAULT_PHASE_SHIFT = -0.15f;
-    private static final float DEFAULT_DENSITY = 5.0f;
-    private static final float DEFAULT_PRIMARY_LINE_WIDTH = 3.0f;
-    private static final float DEFAULT_SECONDARY_LINE_WIDTH = 1.0f;
-
-    private float phase;
-    private float amplitude;
-    private float frequency;
-    private float idleAmplitude;
-    private float numberOfWaves;
-    private float phaseShift;
-    private float density;
-    private float primaryWaveLineWidth;
-    private float secondaryWaveLineWidth;
-    private Paint mPaintColor;
-    private Paint mSecondaryPaint;
-    private Paint mThirdPaint;
-
-    public WaveFormView(Context context) {
-        super(context);
-        setUp();
+    constructor(context: Context?) : super(context) {
+        setUp()
     }
 
-    public WaveFormView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setUp();
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        setUp()
     }
 
-    public WaveFormView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        setUp();
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
+        setUp()
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public WaveFormView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        setUp();
+    constructor(
+        context: Context?,
+        attrs: AttributeSet?,
+        defStyleAttr: Int,
+        defStyleRes: Int
+    ) : super(context, attrs, defStyleAttr, defStyleRes) {
+        setUp()
     }
 
-    private void setUp() {
-        this.frequency = DEFAULT_FREQUENCY;
+    private fun setUp() {
+        this.frequency = DEFAULT_FREQUENCY
 
-        this.amplitude = DEFAULT_AMPLITUDE;
-        this.idleAmplitude = DEFAULT_IDLE_AMPLITUDE;
+        this.amplitude = DEFAULT_AMPLITUDE
+        this.idleAmplitude = DEFAULT_IDLE_AMPLITUDE
 
-        this.numberOfWaves = DEFAULT_NUMBER_OF_WAVES;
-        this.phaseShift = DEFAULT_PHASE_SHIFT;
-        this.density = DEFAULT_DENSITY;
+        this.numberOfWaves = DEFAULT_NUMBER_OF_WAVES
+        this.phaseShift = DEFAULT_PHASE_SHIFT
+        this.density = DEFAULT_DENSITY
 
-        this.primaryWaveLineWidth = DEFAULT_PRIMARY_LINE_WIDTH;
-        this.secondaryWaveLineWidth = DEFAULT_SECONDARY_LINE_WIDTH;
-        mPaintColor = new Paint();
-        mPaintColor.setColor(Color.BLUE);
-        mPaintColor.setStrokeWidth(primaryWaveLineWidth);
-        mSecondaryPaint = new Paint();
-        mSecondaryPaint.setColor(Color.BLACK);
-        mSecondaryPaint.setStrokeWidth(secondaryWaveLineWidth);
-        mThirdPaint = new Paint();
-        mThirdPaint.setColor(Color.YELLOW);
-        mThirdPaint.setStrokeWidth(secondaryWaveLineWidth);
+        this.primaryWaveLineWidth = DEFAULT_PRIMARY_LINE_WIDTH
+        this.secondaryWaveLineWidth = DEFAULT_SECONDARY_LINE_WIDTH
+        mPaintColor = Paint()
+        mPaintColor!!.color = Color.BLUE
+        mPaintColor!!.strokeWidth = primaryWaveLineWidth
+        mSecondaryPaint = Paint()
+        mSecondaryPaint!!.color = Color.BLACK
+        mSecondaryPaint!!.strokeWidth = secondaryWaveLineWidth
+        mThirdPaint = Paint()
+        mThirdPaint!!.color = Color.YELLOW
+        mThirdPaint!!.strokeWidth = secondaryWaveLineWidth
     }
 
-    public void updateAmplitude(float ampli) {
-        this.amplitude = Math.max(ampli, idleAmplitude);
+    fun updateAmplitude(amplitude: Float) {
+        this.amplitude = max(amplitude.toDouble(), idleAmplitude.toDouble()).toFloat()
     }
 
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.TRANSPARENT);
-        for (int i = 0; i < numberOfWaves; i++) {
-            Paint paint = getPaint(i);
-            float halfHeight = canvas.getHeight() / 2;
-            float width = canvas.getWidth();
-            float mid = canvas.getWidth() / 2;
+    override fun onDraw(canvas: Canvas) {
+        canvas.drawColor(Color.TRANSPARENT)
+        var i = 0
+        while (i < numberOfWaves) {
+            val paint = getPaint(i)
+            val halfHeight = (canvas.height / 2).toFloat()
+            val width = canvas.width.toFloat()
+            val mid = (canvas.width / 2).toFloat()
 
-            float maxAmplitude = halfHeight - 4.0f;
-            float progress = 1.0f - (float) i / this.numberOfWaves;
-            float normedAmplitude = (1.5f * progress - 0.5f) * this.amplitude;
-            Path path = getPath();
+            val maxAmplitude = halfHeight - 4.0f
+            val progress = 1.0f - i.toFloat() / this.numberOfWaves
+            val normedAmplitude = (1.5f * progress - 0.5f) * this.amplitude
+            val path = path
 
-            float multiplier = Math.min(1.0f, (progress / 3.0f * 2.0f) + (1.0f / 3.0f));
+            val multiplier = min(
+                1.0,
+                ((progress / 3.0f * 2.0f) + (1.0f / 3.0f)).toDouble()
+            ).toFloat()
 
-            for (float x = 0; x < width + density; x += density) {
+            var x = 0f
+            while (x < width + density) {
                 // We use a parable to scale the sine wave, that has its peak in the middle of the view.
-                float scaling = (float) (-Math.pow(1 / mid * (x - mid), 2) + 1);
+                val scaling: Float = (-(1 / mid * (x - mid)).pow(2f) + 1)
 
-                float y = (float) (scaling * maxAmplitude * normedAmplitude * Math.sin(2 * Math.PI * (x / width) * multiplier * frequency + phase) + halfHeight);
+                val y =
+                    (scaling * maxAmplitude * normedAmplitude * sin(2 * Math.PI * (x / width) * multiplier * frequency + phase) + halfHeight).toFloat()
 
-                if (x == 0) {
-                    path.moveTo(x, y);
+                if (x == 0f) {
+                    path.moveTo(x, y)
                 } else {
-                    path.lineTo(x, y);
+                    path.lineTo(x, y)
                 }
+                x += density
             }
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setAntiAlias(true);
-            canvas.drawPath(path, paint);
+            paint!!.style = Paint.Style.STROKE
+            paint.isAntiAlias = true
+            canvas.drawPath(path, paint)
 
+            i++
         }
-        this.phase += phaseShift;
-        invalidate();
+        this.phase += phaseShift
+        invalidate()
     }
 
-    private Paint getPaint(int i) {
-        if (i == 0)
-            return mPaintColor;
-        if (i%2 == 0)
-            return mSecondaryPaint;
-        return mThirdPaint;
+    private fun getPaint(i: Int): Paint? {
+        if (i == 0) return mPaintColor
+        if (i % 2 == 0) return mSecondaryPaint
+        return mThirdPaint
     }
 
-    @NonNull
-    private Path getPath() {
-        return new Path();
+    private val path: Path
+        get() = Path()
+
+    companion object {
+        private const val DEFAULT_FREQUENCY = 1.5f
+        private const val DEFAULT_AMPLITUDE = 1.0f
+        private const val DEFAULT_IDLE_AMPLITUDE = 0.01f
+        private const val DEFAULT_NUMBER_OF_WAVES = 20.0f
+        private const val DEFAULT_PHASE_SHIFT = -0.15f
+        private const val DEFAULT_DENSITY = 5.0f
+        private const val DEFAULT_PRIMARY_LINE_WIDTH = 3.0f
+        private const val DEFAULT_SECONDARY_LINE_WIDTH = 1.0f
     }
 }
