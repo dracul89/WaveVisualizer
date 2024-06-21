@@ -2,6 +2,7 @@ package dannybeaumont.visualizer.view
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -9,6 +10,7 @@ import android.graphics.Path
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import dannybeaumont.visualizer.R
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
@@ -33,7 +35,8 @@ class WaveFormView : View {
     }
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        setUp()
+        val attributes = context?.obtainStyledAttributes(attrs, R.styleable.WaveFormView)
+        setUp(attributes!!)
     }
 
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -41,7 +44,8 @@ class WaveFormView : View {
         attrs,
         defStyleAttr
     ) {
-        setUp()
+        val attributes = context?.obtainStyledAttributes(attrs, R.styleable.WaveFormView,defStyleAttr,0)
+        setUp(attributes!!)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -51,7 +55,28 @@ class WaveFormView : View {
         defStyleAttr: Int,
         defStyleRes: Int
     ) : super(context, attrs, defStyleAttr, defStyleRes) {
-        setUp()
+        val attributes = context?.obtainStyledAttributes(attrs, R.styleable.WaveFormView,defStyleAttr,defStyleRes)
+        setUp(attributes!!)
+    }
+
+    private fun setUp(values :TypedArray) {
+        this.frequency = values.getFloat(R.styleable.WaveFormView_frequency,DEFAULT_FREQUENCY)
+        this.amplitude = values.getFloat(R.styleable.WaveFormView_amplitude,DEFAULT_AMPLITUDE)
+        this.idleAmplitude = values.getFloat(R.styleable.WaveFormView_idle_amplitude,DEFAULT_IDLE_AMPLITUDE)
+        this.numberOfWaves = values.getFloat(R.styleable.WaveFormView_number_of_waves,DEFAULT_NUMBER_OF_WAVES)
+        this.phaseShift = values.getFloat(R.styleable.WaveFormView_phase_shift,DEFAULT_PHASE_SHIFT)
+        this.primaryWaveLineWidth = values.getFloat(R.styleable.WaveFormView_primary_line_width,DEFAULT_PRIMARY_LINE_WIDTH)
+        this.secondaryWaveLineWidth = values.getFloat(R.styleable.WaveFormView_secondary_line_width,DEFAULT_SECONDARY_LINE_WIDTH)
+        this.density = DEFAULT_DENSITY
+        mPaintColor = Paint()
+        mPaintColor!!.color = Color.BLUE
+        mPaintColor!!.strokeWidth = primaryWaveLineWidth
+        mSecondaryPaint = Paint()
+        mSecondaryPaint!!.color = Color.BLACK
+        mSecondaryPaint!!.strokeWidth = secondaryWaveLineWidth
+        mThirdPaint = Paint()
+        mThirdPaint!!.color = Color.YELLOW
+        mThirdPaint!!.strokeWidth = secondaryWaveLineWidth
     }
 
     private fun setUp() {

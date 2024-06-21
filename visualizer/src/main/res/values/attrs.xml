@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveFormView">
+        <attr name="frequency" format="float"/>
+        <attr name="amplitude" format="float"/>
+        <attr name="idle_amplitude" format="float"/>
+        <attr name="number_of_waves" format="float"/>
+        <attr name="phase_shift" format="float"/>
+        <attr name="primary_line_width" format="float"/>
+        <attr name="secondary_line_width" format="float"/>
+    </declare-styleable>
+</resources>
