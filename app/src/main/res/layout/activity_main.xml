@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <dannybeaumont.visualizer.view.WaveFormView
         android:id="@+id/waveformView"
@@ -12,6 +13,7 @@
         android:layout_alignEnd="@+id/imageButton"
         android:layout_alignRight="@+id/imageButton"
         android:layout_alignTop="@+id/imageButton"
+        tools:amplitude="1.5f"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp" />
 
