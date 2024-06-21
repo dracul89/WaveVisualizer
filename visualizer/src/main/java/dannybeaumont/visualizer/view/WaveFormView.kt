@@ -67,15 +67,15 @@ class WaveFormView : View {
         this.phaseShift = values.getFloat(R.styleable.WaveFormView_phase_shift,DEFAULT_PHASE_SHIFT)
         this.primaryWaveLineWidth = values.getFloat(R.styleable.WaveFormView_primary_line_width,DEFAULT_PRIMARY_LINE_WIDTH)
         this.secondaryWaveLineWidth = values.getFloat(R.styleable.WaveFormView_secondary_line_width,DEFAULT_SECONDARY_LINE_WIDTH)
-        this.density = DEFAULT_DENSITY
+        this.density = values.getFloat(R.styleable.WaveFormView_density,DEFAULT_DENSITY)
         mPaintColor = Paint()
-        mPaintColor!!.color = Color.BLUE
+        mPaintColor!!.color = values.getColor(R.styleable.WaveFormView_primary_color,Color.BLUE)
         mPaintColor!!.strokeWidth = primaryWaveLineWidth
         mSecondaryPaint = Paint()
-        mSecondaryPaint!!.color = Color.BLACK
+        mSecondaryPaint!!.color = values.getColor(R.styleable.WaveFormView_secondary_color, Color.BLACK)
         mSecondaryPaint!!.strokeWidth = secondaryWaveLineWidth
         mThirdPaint = Paint()
-        mThirdPaint!!.color = Color.YELLOW
+        mThirdPaint!!.color = values.getColor(R.styleable.WaveFormView_tertiary_color,Color.YELLOW)
         mThirdPaint!!.strokeWidth = secondaryWaveLineWidth
     }
 

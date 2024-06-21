@@ -8,5 +8,9 @@
         <attr name="phase_shift" format="float"/>
         <attr name="primary_line_width" format="float"/>
         <attr name="secondary_line_width" format="float"/>
+        <attr name="density" format="float"/>
+        <attr name="primary_color" format="color|integer"/>
+        <attr name="secondary_color" format="color|integer"/>
+        <attr name="tertiary_color" format="color|integer"/>
     </declare-styleable>
 </resources>
