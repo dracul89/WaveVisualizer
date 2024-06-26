@@ -114,7 +114,7 @@ class WaveFormView : View {
             val paint = getPaint(i)
             val halfHeight = (canvas.height / 2).toFloat()
             val width = canvas.width.toFloat()
-            val mid = (canvas.width / 2).toFloat()
+            val mid = (width / 2)
 
             val maxAmplitude = halfHeight - 4.0f
             val progress = 1.0f - i.toFloat() / this.numberOfWaves
